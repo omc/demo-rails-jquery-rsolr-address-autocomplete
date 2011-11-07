@@ -5,15 +5,30 @@ class AddressesController < ApplicationController
   end
 
   def autocomplete
-    render :json => $solr.select(params: {
+    render :json => perform_search
+  end
+
+protected
+
+  def perform_search
+    $solr.select(params: {
+      
+      # parameters for the dismax full-text component of this search
       q: params[:q].downcase,
       defType: 'dismax',
       qf: ['address_texts^10', 'text_ngram'],
       
+      # perform highlighting on the results
       hl: true,
       :'hl.fl' => 'address_texts',
       :'hl.highlightMultiTerm' => true
-    })
+      
+    }).tap do |search|
+      
+      # take care to filter the api key echoed in the response
+      search['responseHeader']['params'].delete('api')
+      
+    end
   end
 
 end
