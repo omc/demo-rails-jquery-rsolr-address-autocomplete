@@ -1,0 +1,13 @@
+
+%form#address_autocomplete
+  %input{ type: 'search', class: 'xlarge', name: 'q', id: 'address_autocomplete_input', style: 'width:80%' }
+  %input{ type: 'submit', class: 'btn', value: 'Search' }
+  %p
+    %small
+      Searching
+      - if @search['responseHeader']['partialResults']
+        over
+        = number_with_delimiter (@search['response']['numFound'] / 1000) * 1000
+      - else
+        = number_with_delimiter @search['response']['numFound']
+      addresses.

@@ -1,0 +1,1 @@
+$solr = RSolr.connect url: ENV['WEBSOLR_URL']
