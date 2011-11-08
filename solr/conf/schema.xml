@@ -7,6 +7,14 @@
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="text_syn" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StandardFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
       </analyzer>
     </fieldType>
@@ -43,6 +51,7 @@
     <field name="lng"        stored="true"  type="tdouble"     multiValued="false" indexed="true" />
     <field name="text"       stored="false" type="text"        multiValued="true"  indexed="true" />
     <field name="text_ngram" stored="false" type="text_ngram"  multiValued="true"  indexed="true" />
+    <field name="text_syn"   stored="false" type="text_syn"    multiValued="true"  indexed="true" />
     <field name="type"       stored="false" type="string"      multiValued="true"  indexed="true" />
 
     <dynamicField name="random_*" type="rand"    indexed="true" stored="false" multiValued="false" />
@@ -119,7 +128,9 @@
   <defaultSearchField>text</defaultSearchField>
   <solrQueryParser defaultOperator="AND" />
   
-  <copyField source="*_text" dest="text_ngram" />
+  <copyField source="*_text"  dest="text_ngram" />
   <copyField source="*_texts" dest="text_ngram" />
+  <copyField source="*_text"  dest="text_syn" />
+  <copyField source="*_texts" dest="text_syn" />
   
 </schema>

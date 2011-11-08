@@ -16,7 +16,7 @@ protected
       # parameters for the dismax full-text component of this search
       q: params[:q].downcase,
       defType: 'dismax',
-      qf: ['address_texts^10', 'text_ngram'],
+      qf: ['address_texts^10', 'text_ngram', 'text_syn'],
       
       # perform highlighting on the results
       hl: true,
