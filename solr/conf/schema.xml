@@ -2,19 +2,21 @@
 <schema name="Sunspot Customized NZ" version="1.0">
   <types>
     
+    <!--
+      A text type with minimal text processing, for the greatest semantic
+      value in a term match. Boost this field heavily.
+    -->
     <fieldType name="text" class="solr.TextField" omitNorms="false">
-      <analyzer type="query">
-        <tokenizer class="solr.StandardTokenizerFactory" />
-        <filter class="solr.StandardFilterFactory" />
-        <filter class="solr.LowerCaseFilterFactory" />
-      </analyzer>
-      <analyzer type="index">
+      <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
-    
+
+    <!-- 
+      More expansive matching using synonym expansion for common abbreviations.
+     -->
     <fieldType name="text_syn" class="solr.TextField" omitNorms="false">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory" />
@@ -24,6 +26,9 @@
       </analyzer>
     </fieldType>
     
+    <!--
+      Even looser matches with NGram processing for substrings of terms and synonyms
+    -->
     <fieldType name="text_ngram" class="solr.TextField" omitNorms="false">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory" />
@@ -33,6 +38,23 @@
         <filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="6" side="front" />
       </analyzer>
     </fieldType>
+    
+    <!-- 
+      A text field that receives all the possible processing available,
+      a sort of catch-all union of all the possible terms that can be
+      matched elsewhere. Used exclusively for cohesive highlighting.
+    -->
+    <fieldType name="text_hl" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StandardFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+        <filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="6" side="front" />
+      </analyzer>
+    </fieldType>
+
+    
     
     <fieldType name="boolean" class="solr.BoolField"           omitNorms="true" />
     <fieldType name="date"    class="solr.DateField"           omitNorms="true" />
@@ -58,6 +80,7 @@
     <field name="text"       stored="false" type="text"        multiValued="true"  indexed="true" />
     <field name="text_ngram" stored="false" type="text_ngram"  multiValued="true"  indexed="true" />
     <field name="text_syn"   stored="false" type="text_syn"    multiValued="true"  indexed="true" />
+    <field name="text_hl"    stored="true"  type="text_hl"     multiValued="true"  indexed="true" termVectors="true" termPositions="on" termOffsets="on" />
     <field name="type"       stored="false" type="string"      multiValued="true"  indexed="true" />
 
     <dynamicField name="random_*" type="rand"    indexed="true" stored="false" multiValued="false" />
@@ -138,5 +161,9 @@
   <copyField source="*_texts" dest="text_ngram" />
   <copyField source="*_text"  dest="text_syn" />
   <copyField source="*_texts" dest="text_syn" />
+  <copyField source="*_text"  dest="text_ngram" />
+  <copyField source="*_texts" dest="text_ngram" />
+  <copyField source="*_text"  dest="text_hl" />
+  <copyField source="*_texts" dest="text_hl" />
   
 </schema>
