@@ -9,17 +9,13 @@ $ ->
     source: (request, response) ->
       # console.log "invoked source method"
       $.getJSON "/a/autocomplete?q=#{request.term}", (data) ->
-        # console.log data.highlighting
         suggestions = []
         $.each data.response.docs, (i, val) ->
           label = val.address_texts.replace(/\n/, ', ')
           value = label.toString()
           
-          # console.log "label: #{label}"
-          # console.log "value: #{value}"
-          
-          if data.highlighting && data.highlighting[val.id].address_texts?
-            label = data.highlighting[val.id].address_texts[0].replace(/\n/, ', ')
+          if data.highlighting && data.highlighting[val.id].text_hl?
+            label = data.highlighting[val.id].text_hl[0].replace(/\n/, ', ')
 
           suggestions.push(
             label: label,

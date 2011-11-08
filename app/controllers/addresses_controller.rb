@@ -17,13 +17,22 @@ protected
       q: params[:q].downcase,
       defType: 'dismax',
       qf: ['address_texts^10', 'text_syn^2', 'text_ngram'],
-      pf: 'address_texts',
-      mm: '60%',
+      fl: '',
       
-      # perform highlighting on the results
-      # hl: true,
-      # :'hl.fl' => 'address_texts',
-      # :'hl.highlightMultiTerm' => true
+      # relevancy influencers
+      # percent of terms that must be present in the docs
+      mm: '80%',
+      # fields with extra boost for matches in proximity
+      # pf: ['address_texts^5', 'text_syn^2', 'text_ngram'],
+      # multiply the scores of other matching fields for a tie-breaker
+      tie: 0.1,
+      
+      
+      # perform highlighting on the catch-all text_hl field
+      hl: true,
+      :'hl.fl' => 'text_hl',
+      :'hl.highlightMultiTerm' => true,
+      :'hl.useFastVectorHighlighter' => 'on',
       
     }).tap do |search|
       
