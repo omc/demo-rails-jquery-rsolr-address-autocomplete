@@ -18,7 +18,7 @@ $ ->
           # console.log "label: #{label}"
           # console.log "value: #{value}"
           
-          if data.highlighting[val.id].address_texts?
+          if data.highlighting && data.highlighting[val.id].address_texts?
             label = data.highlighting[val.id].address_texts[0].replace(/\n/, ', ')
 
           suggestions.push(
