@@ -16,7 +16,6 @@ gem 'rsolr'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'sunspot_solr', '1.3.0.rc6'
   gem 'turn', :require => false
 end
 
