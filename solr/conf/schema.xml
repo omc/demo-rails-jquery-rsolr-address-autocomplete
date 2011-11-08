@@ -3,27 +3,16 @@
   <types>
     
     <fieldType name="text" class="solr.TextField" omitNorms="false">
-      <analyzer>
+      <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
-    </fieldType>
-    
-    <fieldType name="text_syn" class="solr.TextField" omitNorms="false">
-      <analyzer>
+      <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
-      </analyzer>
-    </fieldType>
-    
-    <fieldType name="text_ngram" class="solr.TextField" omitNorms="false">
-      <analyzer>
-        <tokenizer class="solr.StandardTokenizerFactory" />
-        <filter class="solr.StandardFilterFactory" />
-        <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="6" side="front" />
       </analyzer>
     </fieldType>
@@ -49,9 +38,9 @@
     <field name="class_name" stored="false" type="string"      multiValued="false" indexed="true" />
     <field name="lat"        stored="true"  type="tdouble"     multiValued="false" indexed="true" />
     <field name="lng"        stored="true"  type="tdouble"     multiValued="false" indexed="true" />
-    <field name="text"       stored="false" type="text"        multiValued="true"  indexed="true" />
-    <field name="text_ngram" stored="false" type="text_ngram"  multiValued="true"  indexed="true" />
-    <field name="text_syn"   stored="false" type="text_syn"    multiValued="true"  indexed="true" />
+    <field name="text"       stored="false" type="text"        multiValued="true"  indexed="true" termVectors="true" />
+    <field name="text_ngram" stored="false" type="text_ngram"  multiValued="true"  indexed="true" termVectors="true" />
+    <field name="text_syn"   stored="false" type="text_syn"    multiValued="true"  indexed="true" termVectors="true" />
     <field name="type"       stored="false" type="string"      multiValued="true"  indexed="true" />
 
     <dynamicField name="random_*" type="rand"    indexed="true" stored="false" multiValued="false" />
