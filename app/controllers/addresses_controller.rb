@@ -16,14 +16,14 @@ protected
       # parameters for the dismax full-text component of this search
       q: params[:q].downcase,
       defType: 'dismax',
-      qf: 'address_texts',
+      qf: ['address_texts^10', 'text_syn^2', 'text_ngram'],
       pf: 'address_texts',
       mm: '60%',
       
       # perform highlighting on the results
-      hl: true,
-      :'hl.fl' => 'address_texts',
-      :'hl.highlightMultiTerm' => true
+      # hl: true,
+      # :'hl.fl' => 'address_texts',
+      # :'hl.highlightMultiTerm' => true
       
     }).tap do |search|
       
