@@ -15,8 +15,8 @@ $ ->
           label = val.address_texts.replace(/\n/, ', ')
           value = label.toString()
           
-          console.log "label: #{label}"
-          console.log "value: #{value}"
+          # console.log "label: #{label}"
+          # console.log "value: #{value}"
           
           if data.highlighting[val.id].address_texts?
             label = data.highlighting[val.id].address_texts[0].replace(/\n/, ', ')

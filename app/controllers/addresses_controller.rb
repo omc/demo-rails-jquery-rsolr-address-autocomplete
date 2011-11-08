@@ -17,6 +17,7 @@ protected
       q: params[:q].downcase,
       defType: 'dismax',
       qf: 'address_texts',
+      pf: 'address_texts',
       mm: '60%',
       
       # perform highlighting on the results
