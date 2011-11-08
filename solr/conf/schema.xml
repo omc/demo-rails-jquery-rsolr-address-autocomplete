@@ -3,7 +3,12 @@
   <types>
     
     <fieldType name="text" class="solr.TextField" omitNorms="false">
-      <analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StandardFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+      <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
@@ -11,7 +16,12 @@
     </fieldType>
     
     <fieldType name="text_syn" class="solr.TextField" omitNorms="false">
-      <analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StandardFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+      <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
@@ -20,7 +30,12 @@
     </fieldType>
     
     <fieldType name="text_ngram" class="solr.TextField" omitNorms="false">
-      <analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="solr.StandardFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+      <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StandardFilterFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
